@@ -1,0 +1,80 @@
+/* static/css/contact.css */
+:root {
+    --primary-green: #4CAF50;
+    --dark-green: #2E7D32;
+    --light-green: #A5D6A7;
+    --bg-green: #F1F8E9;
+    --success-green: #E8F5E9;
+}
+
+.contact-header {
+    background-color: var(--primary-green);
+    padding: 2rem;
+    border-radius: 1rem;
+    color: white;
+    margin-bottom: 2rem;
+}
+
+.contact-form {
+    background: linear-gradient(to bottom right, white, var(--bg-green));
+    border: 1px solid var(--light-green);
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-field {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    color: var(--dark-green);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid var(--light-green);
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.form-input:focus {
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+    outline: none;
+}
+
+.submit-button {
+    background-color: var(--primary-green);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 0.5rem;
+    width: 100%;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: var(--dark-green);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+.success-message {
+    background-color: var(--success-green);
+    border-left: 4px solid var(--primary-green);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.trust-message {
+    color: var(--dark-green);
+    text-align: center;
+    margin-top: 2rem;
+}

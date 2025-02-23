@@ -1,0 +1,342 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}V.I.V.E{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --primary-green: #4CAF50;
+            --dark-green: #2E7D32;
+            --light-green: #E8F5E9;
+            --shadow-green: rgba(76, 175, 80, 0.1);
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand svg {
+            height: 80px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link {
+            position: relative;
+            color: #333;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: var(--primary-green);
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary-green);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 80%;
+            left: 10%;
+        }
+
+        /* Menu mobile */
+        .navbar-toggler {
+            border: none;
+            padding: 0.5rem;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+
+        .navbar-toggler-icon {
+            background-image: none;
+            position: relative;
+            height: 2px;
+            width: 24px;
+            background: var(--primary-green);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-toggler-icon::before,
+        .navbar-toggler-icon::after {
+            content: '';
+            position: absolute;
+            height: 2px;
+            width: 24px;
+            background: var(--primary-green);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-toggler-icon::before {
+            top: -8px;
+        }
+
+        .navbar-toggler-icon::after {
+            bottom: -8px;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: white;
+            border-top: 1px solid var(--shadow-green);
+        }
+
+        footer .nav-link {
+            color: #666;
+            padding: 0.25rem 0;
+        }
+
+        footer h5 {
+            color: var(--dark-green);
+            font-weight: 600;
+        }
+
+        .footer-link {
+            color: #666;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .footer-link:hover {
+            color: var(--primary-green);
+            transform: translateX(5px);
+        }
+
+        .footer-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--shadow-green);
+            color: var(--primary-green);
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background-color: var(--primary-green);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* Animation globale */
+        .animated {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar-collapse {
+                background-color: white;
+                padding: 1rem;
+                border-radius: 0.5rem;
+                box-shadow: 0 4px 6px var(--shadow-green);
+            }
+
+            .nav-link {
+                padding: 0.75rem 1rem;
+            }
+
+            .nav-link::after {
+                display: none;
+            }
+        }
+        .logo-container img {
+    opacity: 0.7;
+    transform: scale(0.95);
+}
+
+.logo-container:hover img {
+    filter: grayscale(0%) !important;
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Animation pour l'apparition des logos */
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.logo-container {
+    animation: fadeInScale 0.6s ease-out forwards;
+}
+
+/* Délai d'animation pour chaque logo */
+.logo-container:nth-child(1) { animation-delay: 0.1s; }
+.logo-container:nth-child(2) { animation-delay: 0.2s; }
+.logo-container:nth-child(3) { animation-delay: 0.3s; }
+.logo-container:nth-child(4) { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+    <!-- Navbar avec classes mises à jour -->
+    <nav class="navbar navbar-expand-lg fixed-top bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200">
+                    <!-- Texte principal avec police arrondie -->
+                    <text x="50" y="120"
+                          font-family="Arial Rounded MT Bold"
+                          font-size="120"
+                          fill="#4CAF50"
+                          letter-spacing="-2">
+                        v.i.v.e
+                    </text>
+
+                    <!-- Sous-titre -->
+                    <text x="50" y="160"
+                          font-family="Arial Rounded MT Bold"
+                          font-size="24"
+                          fill="#4CAF50"
+                          letter-spacing="2">
+                        voluntary initiatives for vital ecosystems
+                    </text>
+
+                    <!-- Élément graphique arrondi - feuille stylisée -->
+                    <path d="M500,70
+                             Q530,40 560,55
+                             T580,70
+                             Q560,100 530,85
+                             T500,70"
+                          fill="#4CAF50"
+                          opacity="0.2"/>
+                </svg>
+            </a>
+
+            <button class="navbar-toggler rounded-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-center gap-2">
+                    <li class="nav-item">
+                        <a href="{% url 'particulier' %}" class="nav-link  {% if request.resolver_match.url_name == 'particulier' %}active{% endif %}">Particulier</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'collectivite' %}" class="nav-link  {% if request.resolver_match.url_name == 'collectivite' %}active{% endif %}">Collectivité/Organisation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'manifeste' %}" class="nav-link  {% if request.resolver_match.url_name == 'manifeste' %}active{% endif %}">Manifeste</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'contact' %}"
+                           class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+                            Contact
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-5 mt-5">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="mt-5">
+        <div class="container py-5">
+            <div class="row g-4">
+                <div class="col-12 col-md-4">
+                    <svg viewBox="0 0 600 200" style="height: 40px;" class="mb-3">
+                        <text x="50" y="120"
+                              font-family="Arial Rounded MT Bold"
+                              font-size="120"
+                              fill="var(--primary-green)"
+                              letter-spacing="-2">
+                            v.i.v.e
+                        </text>
+                    </svg>
+                    <p class="text-secondary">
+                        Voluntary Initiatives for Vital Ecosystems
+                    </p>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <h5 class="mb-3">Navigation</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'particulier' %}" class="footer-link mb-2">Particulier</a></li>
+                        <li><a href="{% url 'collectivite' %}" class="footer-link mb-2">Collectivite/Organisation</a></li>
+                        <li><a href="#" class="footer-link mb-2">Manifeste</a></li>
+                        <li><a href="{% url 'contact' %}" class="footer-link">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <h5 class="mb-3">Contact</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-3">
+                            <a href="mailto:lovelyneperrin@gmail.com" class="footer-link">
+                                <i class="bi bi-envelope me-2"></i>
+                                lovelyneperrin@gmail.com
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.linkedin.com/company/transition-solidaire/?viewAsMember=true"
+                               target="_blank"
+                               class="footer-link">
+                                <i class="bi bi-linkedin me-2"></i>
+                                LinkedIn
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-top mt-4 pt-4">
+                <p class="text-center text-secondary mb-0">
+                    © {% now "Y" %} V.I.V.E. Tous droits réservés.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

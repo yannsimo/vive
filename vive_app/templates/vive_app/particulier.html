@@ -1,0 +1,453 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+<style>
+    /* Variables globales */
+    :root {
+        --primary-green: #00C853;
+        --dark-green: #2E7D32;
+        --light-green: #E8F5E9;
+        --accent-green: #00E676;
+        --bg-light: #FAFBFC;
+        --text-primary: #2C3E50;
+        --text-secondary: #6C757D;
+        --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.08);
+        --shadow-strong: 0 20px 40px rgba(0, 0, 0, 0.12);
+        --transition-base: all 0.3s ease;
+        --border-radius-lg: 2rem;
+        --border-radius-md: 1.5rem;
+        --section-padding: 6rem 0;
+    }
+
+    /* Styles communs à toutes les sections */
+    .section {
+        position: relative;
+        padding: var(--section-padding);
+        overflow: hidden;
+    }
+
+    .section-pattern {
+        position: absolute;
+        inset: 0;
+        opacity: 0.05;
+        background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%2300C853' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    /* Titres */
+    .section-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 3rem;
+        text-align: center;
+        background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    /* Boutons */
+    .btn-custom {
+        background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+        color: white;
+        padding: 1rem 2.5rem;
+        border-radius: var(--border-radius-md);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border: none;
+        transition: var(--transition-base);
+    }
+
+    .btn-custom:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(46, 125, 50, 0.2);
+        color: white;
+    }
+
+    /* Animations */
+    .animated {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: var(--transition-base);
+    }
+
+    .fade-in {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+    .delay-4 { transition-delay: 0.4s; }
+
+    /* Hero Section */
+    .hero-section {
+        min-height: 85vh;
+        background: linear-gradient(135deg, rgba(232, 245, 233, 0.8), rgba(232, 245, 233, 0.4));
+    }
+
+    .hero-image-container {
+        height: 100%;
+        min-height: 500px;
+        border-radius: 0 var(--border-radius-lg) var(--border-radius-lg) 0;
+        overflow: hidden;
+        box-shadow: var(--shadow-strong);
+        position: relative;
+    }
+
+    .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(0, 200, 83, 0.3), rgba(46, 125, 50, 0.3));
+    }
+
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        line-height: 1.2;
+        color: var(--dark-green);
+        margin-bottom: 2rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.5rem;
+        color: var(--text-primary);
+        line-height: 1.6;
+        margin-bottom: 2rem;
+    }
+
+    /* Programme Section */
+    .programme-section {
+        background: white;
+    }
+
+    .programme-content {
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+        padding: 2rem;
+    }
+
+    .programme-text {
+        font-size: 1.25rem;
+        line-height: 1.8;
+        color: var(--text-secondary);
+    }
+
+    /* Features Section */
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .feature-card {
+        background: white;
+        border-radius: var(--border-radius-md);
+        padding: 2.5rem;
+        transition: var(--transition-base);
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(46, 125, 50, 0.1);
+    }
+
+    .feature-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary-green), var(--dark-green));
+        opacity: 0;
+        transition: var(--transition-base);
+    }
+
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-strong);
+    }
+
+    .feature-card:hover::before {
+        opacity: 1;
+    }
+
+    .feature-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+        border-radius: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+        transition: var(--transition-base);
+    }
+
+    .feature-icon i {
+        font-size: 2rem;
+        color: white;
+    }
+
+    .feature-card:hover .feature-icon {
+        transform: scale(1.1) rotate(5deg);
+    }
+
+    .feature-title {
+        color: var(--text-primary);
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .feature-text {
+        color: var(--text-secondary);
+        line-height: 1.75;
+        margin: 0;
+    }
+
+    /* Call-to-Action Section */
+    .cta-section {
+        background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+        color: white;
+    }
+
+    /* Media Queries */
+    @media (max-width: 991.98px) {
+        .hero-image-container {
+            min-height: 300px;
+            border-radius: var(--border-radius-md);
+            margin: 1rem;
+        }
+
+
+
+        .features-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .section {
+            padding: 4rem 0;
+        }
+    }
+</style>
+
+<!-- Hero Section -->
+<section class="section hero-section">
+    <div class="section-pattern"></div>
+    <div class="container">
+        <div class="row align-items-center min-vh-85">
+            <div class="col-lg-6 p-0">
+                <div class="hero-image-container animated">
+                    <div class="hero-overlay"></div>
+                    <img src="{% static 'img/alimentation_saine.jpg' %}" alt="Alimentation saine et durable" class="hero-image">
+                </div>
+            </div>
+            <div class="col-lg-6 px-lg-5">
+                <div class="py-5">
+                    <h1 class="hero-title animated" >
+                        Reprenez en main votre alimentation et engagez-vous pour un futur plus sain et durable !
+                    </h1>
+                    <p class="hero-subtitle animated delay-1">
+                        Vous êtes prêts à améliorer votre bien-être, à reconnecter avec la nature,
+                        et à avoir un impact positif sur votre environnement ?
+                    </p>
+                    <div class="animated delay-2">
+                        <a href="#decouvrir" class="btn btn-custom">
+                            Découvrir le programme →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Programme Section -->
+<section class="section programme-section">
+    <div class="container">
+        <div class="programme-content animated">
+            <p class="programme-text">
+                Notre programme vous permet de cultiver des aliments vivants chez vous
+                ou dans un jardin communautaire local. Avec des techniques simples,
+                même sans jardin, vous pouvez devenir acteur de votre alimentation et
+                transformer votre quotidien ainsi que votre rapport au vivant.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section id="decouvrir" class="section">
+    <div class="section-pattern"></div>
+    <div class="container">
+        <h2 class="section-title animated">Ce que vous allez découvrir</h2>
+
+        <div class="features-grid">
+            <!-- Feature 1 -->
+            <div class="feature-card animated delay-1">
+                <div class="feature-icon">
+                    <i class="bi bi-flower1"></i>
+                </div>
+                <div class="feature-content">
+                    <h3 class="feature-title">Cultivez facilement chez vous</h3>
+                    <p class="feature-text">
+                        Apprenez à faire pousser des graines germées, des micro-pousses,
+                        et des fruits, même dans des espaces réduits. Ces aliments vivants
+                        sont riches en nutriments et favorisent votre santé.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="feature-card animated delay-2">
+                <div class="feature-icon">
+                    <i class="bi bi-heart-pulse"></i>
+                </div>
+                <div class="feature-content">
+                    <h3 class="feature-title">Adoptez une alimentation vivante</h3>
+                    <p class="feature-text">
+                        Incorporez facilement des aliments frais, non transformés,
+                        à vos repas quotidiens. Renforcez votre système immunitaire
+                        et améliorez votre énergie.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="feature-card animated delay-3">
+                <div class="feature-icon">
+                    <i class="bi bi-people"></i>
+                </div>
+                <div class="feature-content">
+                    <h3 class="feature-title">Rejoignez une communauté engagée</h3>
+                    <p class="feature-text">
+                        Même sans jardin, participez aux transformations de votre territoire.
+                        Partagez vos expériences et échangez avec d'autres passionnés
+                        du jardinage durable.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Feature 4 -->
+            <div class="feature-card animated delay-4">
+                <div class="feature-icon">
+                    <i class="bi bi-graph-up-arrow"></i>
+                </div>
+                <div class="feature-content">
+                    <h3 class="feature-title">Une solution progressive</h3>
+                    <p class="feature-text">
+                        Notre programme vous guide étape par étape. Commencez avec
+                        des graines germées et évoluez à votre rythme vers la culture
+                        de fruits et légumes.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call-to-Action Section -->
+<section class="section cta-section">
+    <div class="container">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-8">
+                <h2 class="h1 fw-bold mb-4 animated">
+                    Vous êtes prêt à vous engager ?
+                </h2>
+                <p class="lead mb-5 animated delay-1">
+                    Commencez dès maintenant votre voyage vers une alimentation plus saine et durable
+                </p>
+                <div class="animated delay-2">
+                    <a href="#formulaire" class="btn btn-light btn-custom">
+                        Je veux en savoir plus →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Animation au scroll
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('fade-in');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.animated').forEach(el => {
+        observer.observe(el);
+    });
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            if (targetId !== '#') {
+                document.querySelector(targetId).scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // Gestion du scroll pour les animations
+    let lastScrollPosition = window.pageYOffset;
+    const header = document.querySelector('.hero-section');
+
+    window.addEventListener('scroll', () => {
+        const currentScrollPosition = window.pageYOffset;
+
+        // Effet de parallaxe subtil pour le hero
+        if (header) {
+            header.style.backgroundPosition = `50% ${currentScrollPosition * 0.5}px`;
+        }
+
+        lastScrollPosition = currentScrollPosition;
+    });
+
+    // Animation du bouton au hover
+    document.querySelectorAll('.btn-custom').forEach(button => {
+        button.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-3px)';
+        });
+
+        button.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+
+    // Animation des cartes feature
+    document.querySelectorAll('.feature-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            const icon = this.querySelector('.feature-icon');
+            if (icon) {
+                icon.style.transform = 'scale(1.1) rotate(5deg)';
+            }
+        });
+
+        card.addEventListener('mouseleave', function() {
+            const icon = this.querySelector('.feature-icon');
+            if (icon) {
+                icon.style.transform = 'scale(1) rotate(0)';
+            }
+        });
+    });
+});
+</script>
+
+{% endblock %}

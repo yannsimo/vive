@@ -1,0 +1,517 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+
+<style>
+    /* Variables globales */
+    :root {
+        --primary-green: #00C853;
+        --dark-green: #2E7D32;
+        --light-green: #E8F5E9;
+        --accent-green: #00E676;
+        --bg-light: #FAFBFC;
+        --text-primary: #2C3E50;
+        --text-secondary: #6C757D;
+        --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.08);
+        --shadow-strong: 0 20px 40px rgba(0, 0, 0, 0.12);
+        --transition-base: all 0.3s ease;
+        --border-radius-lg: 2rem;
+        --border-radius-md: 1.5rem;
+        --section-padding: 6rem 0;
+    }
+
+    /* Styles de base */
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        color: var(--text-primary);
+        line-height: 1.7;
+        background-color: var(--bg-light);
+    }
+
+    /* Sections communes */
+    .section {
+        position: relative;
+        padding: var(--section-padding);
+        overflow: hidden;
+    }
+
+    .section-pattern {
+        position: absolute;
+        inset: 0;
+        opacity: 0.05;
+        background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%2300C853' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    /* Hero Section */
+    .hero-section {
+        min-height: 85vh;
+        background: linear-gradient(135deg, rgba(232, 245, 233, 0.8), rgba(232, 245, 233, 0.4));
+    }
+
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        line-height: 1.2;
+        color: var(--dark-green);
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+    .hero-subtitle {
+        font-size: 1.25rem;
+        line-height: 1.8;
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+    }
+    .hero-illustration {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 2rem;
+}
+
+    /* Animation subtile de flottement */
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+    }
+
+    .hero-illustration {
+        animation: float 6s ease-in-out infinite;
+    }
+
+    /* Cards */
+    .feature-card {
+        background: white;
+        border-radius: var(--border-radius-md);
+        padding: 2.5rem;
+        transition: var(--transition-base);
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(46, 125, 50, 0.1);
+        height: 100%;
+    }
+
+    .feature-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary-green), var(--dark-green));
+        opacity: 0;
+        transition: var(--transition-base);
+    }
+
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-strong);
+    }
+
+    .feature-card:hover::before {
+        opacity: 1;
+    }
+
+    .feature-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+        border-radius: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+        transition: var(--transition-base);
+    }
+
+    .feature-icon i {
+        font-size: 2rem;
+        color: white;
+    }
+
+    .feature-title {
+        color: var(--text-primary);
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .feature-text {
+        color: var(--text-secondary);
+        line-height: 1.75;
+        margin: 0;
+    }
+
+    /* Buttons */
+    .btn-custom {
+        background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+        color: white;
+        padding: 1rem 2.5rem;
+        border-radius: var(--border-radius-md);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border: none;
+        transition: var(--transition-base);
+    }
+
+    .btn-custom:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(46, 125, 50, 0.2);
+        color: white;
+    }
+
+    /* Titles */
+    .section-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 3rem;
+        text-align: center;
+        background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    /* Animations */
+    .animated {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: var(--transition-base);
+    }
+
+    .fade-in {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+    .delay-4 { transition-delay: 0.4s; }
+
+    /* Media Queries */
+    @media (max-width: 991.98px) {
+        .hero-title {
+            font-size: 2.5rem;
+        }
+
+        .section {
+            padding: 4rem 0;
+        }
+
+        .feature-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="section-pattern"></div>
+    <div class="container-fluid">
+        <div class="row align-items-center min-vh-85">
+            <!-- Image à gauche -->
+            <div class="col-lg-6 p-0">
+                <div class="hero-image-container animated">
+                    <div class="hero-overlay"></div>
+                     <svg class="hero-illustration" viewBox="0 0 500 500">
+                        <defs>
+                            <linearGradient id="leafGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00C853"/>
+                                <stop offset="100%" style="stop-color:#2E7D32"/>
+                            </linearGradient>
+                        </defs>
+                        <!-- Grand cercle central -->
+                        <circle cx="250" cy="250" r="200" fill="#E8F5E9"/>
+
+                        <!-- Feuilles ou pétales autour -->
+                        <path d="M250 50 Q350 150 250 250 Q150 150 250 50" fill="url(#leafGradient)" opacity="0.9">
+                            <animate attributeName="d" dur="10s" repeatCount="indefinite"
+                                values="M250 50 Q350 150 250 250 Q150 150 250 50;
+                                        M250 50 Q370 170 250 250 Q130 170 250 50;
+                                        M250 50 Q350 150 250 250 Q150 150 250 50"/>
+                        </path>
+
+                        <!-- Répéter la feuille avec des rotations différentes -->
+                        <use href="#leaf" transform="rotate(72 250 250)"/>
+                        <use href="#leaf" transform="rotate(144 250 250)"/>
+                        <use href="#leaf" transform="rotate(216 250 250)"/>
+                        <use href="#leaf" transform="rotate(288 250 250)"/>
+
+                        <!-- Petits cercles décoratifs -->
+                        <circle cx="250" cy="150" r="10" fill="#00C853" opacity="0.6">
+                            <animate attributeName="r" values="10;12;10" dur="2s" repeatCount="indefinite"/>
+                        </circle>
+                        <circle cx="350" cy="250" r="8" fill="#00C853" opacity="0.6">
+                            <animate attributeName="r" values="8;10;8" dur="2s" repeatCount="indefinite"/>
+                        </circle>
+                        <circle cx="250" cy="350" r="12" fill="#00C853" opacity="0.6">
+                            <animate attributeName="r" values="12;14;12" dur="2s" repeatCount="indefinite"/>
+                        </circle>
+                    </svg>
+                </div>
+            </div>
+            <!-- Contenu à droite -->
+            <div class="col-lg-6 px-lg-5">
+                <div class="py-5">
+                    <h1 class="hero-title animated">
+                        Demain est à NOUS, citoyen.ne.s cultivons le changement !
+                    </h1>
+                    <p class="hero-subtitle animated delay-1">
+                        Face aux enjeux environnementaux, climatiques, alimentaires, sanitaires et sociaux de notre époque,
+                        nous croyons que la transition agro-écologique est au cœur de la solution.
+                    </p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section Manifeste -->
+<section id="manifeste" class="section-gradient py-5">
+
+    <div class="container">
+         <div class="section-pattern"></div>
+        <!-- Section Texte Principal -->
+        <div class="row justify-content-center mb-5 g-4">
+            <div class="col-12">
+                <h2 class="section-title mb-5">Notre Manifeste</h2>
+            </div>
+            <!-- Carte 1 -->
+            <div class="col-lg-4">
+                <div class="feature-card animated delay-1">
+                    <div class="feature-icon">
+                         <i class="bi bi-tree"></i>
+                    </div>
+                    <p class="text-dark fs-5">
+                        C'est en réinventant nos pratiques agricoles, en rapprochant les citoyens du vivant et en facilitant
+                        l'accès à une alimentation saine, locale et responsable, que nous pourrons bâtir un avenir durable.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Carte 2 -->
+            <div class="col-lg-4">
+                <div class="feature-card animated delay-2">
+                    <div class="feature-icon">
+                        <i class="bi bi-heart"></i>
+                    </div>
+                    <p class="text-dark fs-5">
+                        Chez V.I.V.E, nous sommes convaincus que chaque petit geste compte, et que l'engagement pour un
+                        avenir meilleur peut être joyeux et célébré. Nous croyons que le changement passe par l'action collective,
+                        mais aussi par des moments de partage, de convivialité et de fête.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Carte 3 -->
+            <div class="col-lg-4">
+                <div class="feature-card animated delay-3">
+                    <div class="feature-icon">
+                        <i class="bi bi-people"></i>
+                    </div>
+                    <p class="text-dark fs-5">
+                        Cultiver, échanger, apprendre ensemble : c'est une aventure humaine et collective, un véritable
+                        chemin de découvertes, de rires et de réussites partagées.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section Vision -->
+        <div class="row justify-content-center g-4 mb-5">
+            <div class="col-12">
+                <h2 class="section-title mb-5">Notre Vision</h2>
+            </div>
+            <!-- Vision Gauche -->
+            <div class="col-lg-6">
+                <div class="feature-card animated delay-1">
+                    <div class="feature-icon">
+                        <i class="bi bi-globe"></i>
+                    </div>
+                    <p class="text-secondary">
+                        Notre vision est celle d'un monde où les citoyens se réapproprient leur alimentation et leur environnement,
+                        avec enthousiasme et bienveillance. En rapprochant les individus du vivant, nous redonnons du sens à nos
+                        gestes quotidiens et créons des liens durables, aussi bien avec la nature qu'entre nous.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Vision Droite -->
+            <div class="col-lg-6">
+                <div class="feature-card animated delay-2">
+                    <div class="feature-icon">
+                        <i class="bi bi-flower1"></i>
+                    </div>
+                    <p class="text-secondary">
+                        C'est dans la joie de cultiver ensemble, dans la fierté de manger ce que l'on a semé, que réside
+                        la vraie force de notre mouvement. À travers des projets participatifs et des initiatives locales,
+                        nous créons des espaces où la transformation s'opère de manière positive.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section Objectifs -->
+        <div class="row justify-content-center g-4">
+            <div class="col-12">
+                <h2 class="section-title mb-5">Nos Objectifs</h2>
+            </div>
+            <!-- Objectif Gauche -->
+            <div class="col-lg-6">
+                <div class="feature-card animated delay-1">
+                    <div class="feature-icon">
+                        <i class="bi bi-heart-fill"></i>
+                    </div>
+                    <p class="feature-text">
+                        Promouvoir une relation plus respectueuse avec le vivant à travers l'agriculture,
+                        l'alimentation et l'environnement.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Objectif Droite -->
+            <div class="col-lg-6">
+                <div class="feature-card animated delay-2">
+                    <div class="feature-icon">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+                    <p class="feature-text">
+                        Créer des projets participatifs pour transformer nos habitudes alimentaires
+                        et renforcer la résilience des territoires.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section Formulaire -->
+<section class="section-gradient py-5">
+    <div class="section-pattern"></div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="custom-card p-5">
+                    <h2 class="text-center mb-4" style="color: var(--primary-green)">Je signe le manifeste</h2>
+                    <form class="needs-validation" novalidate>
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Prénom</label>
+                                    <input type="text" class="form-control form-control-lg bg-light border-0" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Nom</label>
+                                    <input type="text" class="form-control form-control-lg bg-light border-0" required>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control form-control-lg bg-light border-0" required>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-label">Type de participation</label>
+                                    <select class="form-select form-select-lg bg-light border-0" required>
+                                        <option value="">Choisir...</option>
+                                        <option value="citoyen">Citoyen</option>
+                                        <option value="collectivite">Collectivité</option>
+                                        <option value="ecole">École</option>
+                                        <option value="autre">Autre</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-label">Intérêt principal</label>
+                                    <textarea class="form-control form-control-lg bg-light border-0" rows="3"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-12 text-center">
+                                <button type="submit" class="btn btn-custom btn-lg">
+                                    Je signe le manifeste
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Animation au scroll
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('fade-in');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.animated').forEach(el => {
+        observer.observe(el);
+    });
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            if (targetId !== '#') {
+                document.querySelector(targetId).scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // Form validation
+    const forms = document.querySelectorAll('.needs-validation');
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+    });
+
+    // Animation des cartes au hover
+    document.querySelectorAll('.feature-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            const icon = this.querySelector('.feature-icon');
+            if (icon) {
+                icon.style.transform = 'scale(1.1) rotate(5deg)';
+            }
+        });
+
+        card.addEventListener('mouseleave', function() {
+            const icon = this.querySelector('.feature-icon');
+            if (icon) {
+                icon.style.transform = 'scale(1) rotate(0)';
+            }
+        });
+    });
+});
+</script>
+
+{% endblock %}

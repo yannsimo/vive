@@ -1,0 +1,505 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+<style>
+    /* Variables globales */
+    :root {
+        --primary-green: #00C853;
+        --dark-green: #2E7D32;
+        --light-green: #E8F5E9;
+        --accent-green: #00E676;
+        --bg-light: #FAFBFC;
+        --text-primary: #2C3E50;
+        --text-secondary: #6C757D;
+        --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.08);
+        --shadow-strong: 0 20px 40px rgba(0, 0, 0, 0.12);
+        --transition-base: all 0.3s ease;
+        --border-radius-lg: 2rem;
+        --border-radius-md: 1.5rem;
+        --section-padding: 6rem 0;
+    }
+
+    /* Styles de base */
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        color: var(--text-primary);
+        line-height: 1.7;
+        background-color: var(--bg-light);
+    }
+
+    /* Sections communes */
+    .section {
+        position: relative;
+        padding: var(--section-padding);
+        overflow: hidden;
+    }
+
+    .section-pattern {
+        position: absolute;
+        inset: 0;
+        opacity: 0.05;
+        background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%2300C853' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+    }
+    .hero-image-container {
+        height: 100%;
+        min-height: 500px;  /* au lieu de 400px pour être cohérent */
+        margin-left: 35px;    /* enlever le padding-left:20px */
+        border-radius: 0 var(--border-radius-lg) var(--border-radius-lg) 0;
+        overflow: hidden;
+        box-shadow: var(--shadow-strong);
+        position: relative;
+}
+
+
+
+    /* Hero Section */
+    .hero-section {
+        min-height: 85vh;
+        background: linear-gradient(135deg, rgba(232, 245, 233, 0.8), rgba(232, 245, 233, 0.4));
+    }
+
+     .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(0, 200, 83, 0.3), rgba(46, 125, 50, 0.3));
+    }
+
+
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        line-height: 1.2;
+        color: var(--dark-green);
+        margin-bottom: 2rem;
+        text-align: left;
+    }
+
+    .hero-subtitle {
+        font-size: 1.25rem;
+        line-height: 1.8;
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+    }
+
+    /* Cards */
+    .feature-card {
+        background: white;
+        border-radius: var(--border-radius-md);
+        padding: 2.5rem;
+        transition: var(--transition-base);
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(46, 125, 50, 0.1);
+        height: 100%;
+    }
+
+    .feature-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary-green), var(--dark-green));
+        opacity: 0;
+        transition: var(--transition-base);
+    }
+
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-strong);
+    }
+
+    .feature-card:hover::before {
+        opacity: 1;
+    }
+
+    .feature-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+        border-radius: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+        transition: var(--transition-base);
+    }
+
+    .feature-icon i {
+        font-size: 2rem;
+        color: white;
+    }
+
+    .feature-title {
+        color: var(--text-primary);
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .feature-text {
+        color: var(--text-secondary);
+        line-height: 1.75;
+        margin: 0;
+    }
+
+    /* Buttons */
+    .btn-custom {
+        background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+        color: white;
+        padding: 1rem 2.5rem;
+        border-radius: var(--border-radius-md);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border: none;
+        transition: var(--transition-base);
+    }
+
+    .btn-custom:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(46, 125, 50, 0.2);
+        color: white;
+    }
+
+    /* Titles */
+    .section-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 3rem;
+        text-align: center;
+        background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    /* Animations */
+    .animated {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: var(--transition-base);
+    }
+
+    .fade-in {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+    .delay-4 { transition-delay: 0.4s; }
+
+    /* Media Queries */
+    @media (max-width: 991.98px) {
+        .hero-title {
+            font-size: 2.5rem;
+        }
+
+        .section {
+            padding: 4rem 0;
+        }
+
+        .feature-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+<!-- Hero Section -->
+
+<section class="section hero-section">
+    <div class="section-pattern"></div>
+    <div class="container-fluid">
+        <div class="row align-items-center min-vh-85">
+            <!-- Image à gauche -->
+            <div class="col-lg-6 p-0">
+                <div class="hero-image-container animated">
+                    <div class="hero-overlay"></div>
+                    <img src="{% static 'img/people.jpg' %}"
+                         alt="Territoire durable"
+                         class="hero-image">
+                </div>
+            </div>
+            <!-- Contenu à droite -->
+            <div class="col-lg-6 px-lg-5">
+                <div class="py-5">
+                    <h1 class="hero-title animated">
+                        Engagez votre territoire dans la transition alimentaire durable !
+                    </h1>
+                    <p class="hero-subtitle animated delay-1">
+                        Vous êtes un.e élu.e ? Vous travaillez au sein d'une commune, d'un EPCI
+                        ou d'une organisation de soutien à l'agriculture durable ? Découvrez comment
+                        notre programme peut s'inscrire dans vos projets alimentaires territoriaux,
+                        vos démarches de transition énergétique, ou une charte climat.
+                    </p>
+                    <div class="mt-5 animated delay-2">
+                        <a href="#solutions" class="btn btn-custom">
+                            Découvrir nos solutions →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section Complémentaire -->
+<section class="section-gradient py-5">
+    <div class="section-pattern"></div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="custom-card p-4 animated">
+                    <p class="text-dark fs-5 mb-0">
+                        Les collectivités et organisations sont au cœur de la transformation du système
+                        alimentaire. En mettant en place des projets de jardins communautaires et en
+                        impliquant vos citoyens dans des actions concrètes, vous contribuez à rendre
+                        votre territoire plus résilient, solidaire et autonome.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Solutions Section -->
+<section id="solutions" class="section">
+    <style>
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 991.98px) {
+            .solutions-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+    </style>
+
+    <div class="section-pattern"></div>
+    <div class="container">
+        <h2 class="section-title animated">Ce que vous allez offrir à vos citoyens</h2>
+        <p class="text-center lead mb-5 animated delay-1">
+            Des solutions concrètes pour une transition alimentaire réussie
+        </p>
+
+        <div class="solutions-grid">
+            <!-- Solution 1 -->
+            <div class="feature-card animated delay-1">
+                <div class="feature-icon">
+                    <i class="bi bi-tree"></i>
+                </div>
+                <h3 class="feature-title">Jardins partagés accessibles à tous</h3>
+                <p class="feature-text">
+                    Des espaces collectifs pour cultiver des produits locaux, renforcer
+                    le lien social et transformer les paysages urbains en pôles de
+                    production alimentaire durable.
+                </p>
+            </div>
+
+            <!-- Solution 2 -->
+            <div class="feature-card animated delay-2">
+                <div class="feature-icon">
+                    <i class="bi bi-book"></i>
+                </div>
+                <h3 class="feature-title">Des compétences locales renforcées</h3>
+                <p class="feature-text">
+                    En impliquant vos citoyens dans des formations en jardinage et
+                    alimentation durable, vous développez des savoir-faire locaux et
+                    pérennes qui bénéficieront à l'ensemble de la communauté.
+                </p>
+            </div>
+
+            <!-- Solution 3 -->
+            <div class="feature-card animated delay-3">
+                <div class="feature-icon">
+                    <i class="bi bi-people"></i>
+                </div>
+                <h3 class="feature-title">Une dynamique d'entraide locale</h3>
+                <p class="feature-text">
+                    Grâce à notre plateforme, vos citoyens peuvent échanger, collaborer
+                    et créer ensemble des solutions alimentaires innovantes qui répondent
+                    aux défis locaux.
+                </p>
+            </div>
+
+            <!-- Solution 4 -->
+            <div class="feature-card animated delay-4">
+                <div class="feature-icon">
+                    <i class="bi bi-heart-pulse"></i>
+                </div>
+                <h3 class="feature-title">Contribution à la prévention santé</h3>
+                <p class="feature-text">
+                    Ce programme participe à la promotion d'une alimentation saine et équilibrée.
+                    Le jardinage et la consommation d'aliments vivants ont des effets démontrés
+                    sur la santé mentale et physique.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Bénéfices Section -->
+<section class="section bg-white">
+    <div class="section-pattern"></div>
+    <div class="container">
+        <h2 class="section-title animated">Les bénéfices pour votre territoire</h2>
+        <p class="text-center lead mb-5 animated delay-1">
+            Transformez votre territoire en un modèle de durabilité et de résilience
+        </p>
+
+        <div class="row g-4">
+            <!-- Bénéfice 1 -->
+            <div class="col-lg-6">
+                <div class="feature-card animated delay-1">
+                    <div class="feature-icon">
+                        <i class="bi bi-house-heart"></i>
+                    </div>
+                    <h3 class="feature-title">Un modèle de résilience alimentaire</h3>
+                    <p class="feature-text">
+                        Réduisez votre dépendance aux circuits alimentaires externes,
+                        et devenez un territoire à la fois autonome et durable.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Bénéfice 2 -->
+            <div class="col-lg-6">
+                <div class="feature-card animated delay-2">
+                    <div class="feature-icon">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+                    <h3 class="feature-title">Une communauté plus engagée</h3>
+                    <p class="feature-text">
+                        Impliquez vos citoyens dans des projets concrets, avec des
+                        bénéfices visibles pour la santé publique et le bien-être collectif.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Bénéfice 3 -->
+            <div class="col-lg-6">
+                <div class="feature-card animated delay-3">
+                    <div class="feature-icon">
+                        <i class="bi bi-hand-thumbs-up"></i>
+                    </div>
+                    <h3 class="feature-title">Un territoire plus solidaire</h3>
+                    <p class="feature-text">
+                        L'agriculture citoyenne crée des liens sociaux et soutient une
+                        économie locale inclusive et responsable.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Bénéfice 4 -->
+            <div class="col-lg-6">
+                <div class="feature-card animated delay-4">
+                    <div class="feature-icon">
+                        <i class="bi bi-heart-pulse"></i>
+                    </div>
+                    <h3 class="feature-title">Un territoire en meilleure santé</h3>
+                    <p class="feature-text">
+                        En favorisant des pratiques agricoles locales et une alimentation saine,
+                        vous améliorez la santé publique et réduisez les inégalités sociales
+                        liées à l'alimentation.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call-to-Action Section -->
+<section class="section" style="background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%)">
+    <div class="container">
+        <div class="section-pattern"></div>
+        <div class="row justify-content-center text-center text-white">
+            <div class="col-lg-8">
+                <h2 class="h1 fw-bold mb-4 animated">
+                    Vous êtes prêt à faire passer votre territoire à l'action ?
+                </h2>
+                <p class="lead mb-5 animated delay-1">
+                    Prenez rendez-vous pour une présentation détaillée de notre programme
+                </p>
+                <div class="animated delay-2">
+                    <a href="#contact" class="btn btn-custom bg-white">
+                        <span class="text-success">Je veux une présentation →</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Animation au scroll
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('fade-in');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.animated').forEach(el => {
+        observer.observe(el);
+    });
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            if (targetId !== '#') {
+                document.querySelector(targetId).scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // Form validation
+    const forms = document.querySelectorAll('.needs-validation');
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+    });
+
+    // Animation des cartes au hover
+    document.querySelectorAll('.feature-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            const icon = this.querySelector('.feature-icon');
+            if (icon) {
+                icon.style.transform = 'scale(1.1) rotate(5deg)';
+            }
+        });
+
+        card.addEventListener('mouseleave', function() {
+            const icon = this.querySelector('.feature-icon');
+            if (icon) {
+                icon.style.transform = 'scale(1) rotate(0)';
+            }
+        });
+    });
+});
+</script>
+
+{% endblock %}
