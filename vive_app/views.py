@@ -38,7 +38,7 @@ def manifeste(request):
                 subject=f'Nouveau contact de {contact.prenom} {contact.nom}',
                 message=message_corps,
                 from_email={contact.email},
-                recipient_list=['yannjuniorsim@gmail.com'],
+                recipient_list=['vive.association@gmail.com'],
                 fail_silently=False,
             )
 
