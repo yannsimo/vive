@@ -223,6 +223,18 @@
         border-radius: 50%;
         background-color: var(--primary-green);
     }
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        background-size: 60%;
+        filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.3));
+    }
+
+    /* Effet de survol pour une meilleure expérience utilisateur */
+    .carousel-control-prev:hover,
+    .carousel-control-next:hover {
+        opacity: 1;
+        background-color: var(--dark-green);
+    }
 
     /* Animations */
     @keyframes fadeInUp {
@@ -262,6 +274,79 @@
             margin-bottom: 1rem;
         }
     }
+    .testimonial-image-container {
+    border-radius: 1rem;
+    overflow: hidden;
+    position: relative;
+    padding-top: 75%; /* Rapport hauteur/largeur 4:3 */
+    background-color: #f8f9fa;
+}
+
+.testimonial-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Affiche l'image entière sans la couper */
+    background-color: rgba(232, 245, 233, 0.5); /* Fond légèrement coloré */
+    transition: transform 0.3s ease;
+}
+
+/* Pour les écrans plus grands, on peut ajuster la taille */
+@media (min-width: 992px) {
+    .testimonial-image-container {
+        padding-top: 66.67%; /* Rapport hauteur/largeur 3:2 pour les grands écrans */
+    }
+}
+
+/* Styles pour le carousel */
+.custom-card {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 40px;
+    height: 40px;
+    background-color: var(--primary-green);
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.7;
+}
+
+.carousel-control-prev {
+    left: 10px;
+}
+
+.carousel-control-next {
+    right: 10px;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    opacity: 1;
+}
+
+.carousel-indicators [data-bs-target] {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--primary-green);
+    opacity: 0.5;
+}
+
+.carousel-indicators .active {
+    opacity: 1;
+}
+
+/* Animation au survol */
+.testimonial-image-container:hover .testimonial-image {
+    transform: scale(1.05);
+}
 </style>
 <!-- Hero Section -->
 <section class ="hero-section">
@@ -293,10 +378,10 @@
                 </p>
 
                 <div class="d-flex flex-column flex-md-row gap-3">
-                    <a href="#" class="btn btn-primary-custom hover-grow">
+                    <a href="{% url 'particulier' %}" class="btn btn-primary-custom hover-grow" style="position: relative; z-index: 10;">
                         Citoyen.ne, prenez part au changement ! →
                     </a>
-                    <a href="#" class="btn btn-outline-primary-custom hover-grow">
+                    <a href="{% url 'collectivite' %}" class="btn btn-outline-primary-custom hover-grow" style="position: relative; z-index: 10;">
                         Collectivités/organisations, découvrez comment agir !
                     </a>
                 </div>
@@ -305,53 +390,7 @@
     </div>
 </div>
 </section>
-<!-- Section Qui sommes-nous -->
-<section class="section-gradient py-5">
-    <div class="container">
-        <div class="row justify-content-center text-center mb-5">
-            <div class="col-12">
-                <h2 class="section-title mb-4">
-                    <span style="color: var(--primary-green)">Qui</span> sommes-nous ?
-                </h2>
-            </div>
-        </div>
 
-        <div class="row justify-content-center g-4">
-            <!-- Colonne gauche -->
-            <div class="col-12 col-lg-6">
-                <div class="custom-card p-4 p-lg-5 hover-grow h-100">
-                    <div class="d-flex flex-column justify-content-center h-100">
-                        <div class="icon-circle mb-4 mx-auto">
-                            <i class="bi bi-heart-fill fs-4"></i>
-                        </div>
-                        <h3 class="fs-4 mb-3 text-center" style="color: var(--primary-green)">Notre Mission</h3>
-                        <p class="text-dark fs-5 mb-0 text-center">
-                            V.I.V.E est une organisation dédiée à la transformation de notre relation avec le vivant,
-                            en plaçant l'alimentation au cœur de notre engagement.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Colonne droite -->
-            <div class="col-12 col-lg-6">
-                <div class="custom-card p-4 p-lg-5 hover-grow h-100">
-                    <div class="d-flex flex-column justify-content-center h-100">
-                        <div class="icon-circle mb-4 mx-auto">
-                            <i class="bi bi-people-fill fs-4"></i>
-                        </div>
-                        <h3 class="fs-4 mb-3 text-center" style="color: var(--primary-green)">Notre Histoire</h3>
-                        <p class="text-dark fs-5 mb-0 text-center">
-                            Fondée par un collectif de citoyens des quartiers populaires de Grenoble,
-                            sous l'impulsion de <span class="fw-bold" style="color: var(--primary-green)">Lovelyne PERRIN ALIMA</span>
-                            (créatrice du projet Eco Explorer).
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 <!-- Section Programme -->
 <section class="section-gradient py-5">
     <div class="container">
@@ -482,7 +521,7 @@
         </div>
     </div>
 </section>
-<!-- Section Témoignages -->
+ <!-- Section Témoignages -->
 <section class="section-gradient py-5">
     <div class="container">
         <div class="row justify-content-center text-center mb-5">
@@ -506,15 +545,26 @@
                             <div class="p-4 hover-grow animated">
                                 <div class="row align-items-center g-4">
                                     <div class="col-md-6">
-                                        <div style="height: 300px; overflow: hidden; border-radius: 1rem;">
+                                        <div class="testimonial-image-container">
                                             <img src="{% static 'img/temoignage1.jpeg' %}"
-                                                 class="img-fluid w-100 h-100"
-                                                 alt="Tomates récoltées"
-                                                 style="object-fit: cover;">
+                                                 class="img-fluid testimonial-image"
+                                                 alt="Tomates récoltées">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="p-3">
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <p class="date-badge rounded-pill px-3 py-1 text-white" style="background-color: var(--primary-green); font-size: 0.9rem;">
+                                                    <i class="bi bi-calendar-event me-1"></i> Août 2024
+                                                </p>
+                                                <div class="rating">
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                </div>
+                                            </div>
                                             <blockquote class="text-secondary mb-4 fst-italic fs-5">
                                                 "Mes premières tomates !!!! Regardez moi cette récolte ! Je suis extrêmement fière et c'est vraiment gratifiant de voir ce que je suis arrivée à faire."
                                             </blockquote>
@@ -530,110 +580,168 @@
                             <div class="p-4 hover-grow animated">
                                 <div class="row align-items-center g-4">
                                     <div class="col-md-6">
-                                        <div style="height: 300px; overflow: hidden; border-radius: 1rem;">
+                                        <div class="testimonial-image-container">
                                             <img src="{% static 'img/temoignage2.jpeg' %}"
-                                                 class="img-fluid w-100 h-100"
-                                                 alt="Semis en croissance"
-                                                 style="object-fit: cover;">
+                                                 class="img-fluid testimonial-image"
+                                                 alt="Semis en croissance">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="p-3">
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <p class="date-badge rounded-pill px-3 py-1 text-white" style="background-color: var(--primary-green); font-size: 0.9rem;">
+                                                    <i class="bi bi-calendar-event me-1"></i> Mars 2024
+                                                </p>
+                                                <div class="rating">
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                </div>
+                                            </div>
                                             <blockquote class="text-secondary mb-4 fst-italic fs-5">
                                                 "Mes premiers semis en pleine croissance ! Ce programme me procure une vraie pause bien-être, et c'est fascinant de voir ces graines se transformer jour après jour."
                                             </blockquote>
-                                            <p class="fw-bold mb-0" style="color: var(--primary-green)">V.I.V.E</p>
+                                            <p class="fw-bold mb-0" style="color: var(--primary-green)">Anthony D.</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- Troisième témoignage -->
                         <div class="carousel-item">
                             <div class="p-4 hover-grow animated">
                                 <div class="row align-items-center g-4">
                                     <div class="col-md-6">
-                                        <div style="height: 300px; overflow: hidden; border-radius: 1rem;">
+                                        <div class="testimonial-image-container">
                                             <img src="{% static 'img/temoignage3.jpeg' %}"
-                                                 class="img-fluid w-100 h-100"
-                                                 alt="Semis en croissance"
-                                                 style="object-fit: cover;">
+                                                 class="img-fluid testimonial-image"
+                                                 alt="Semis en croissance">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="p-3">
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <p class="date-badge rounded-pill px-3 py-1 text-white" style="background-color: var(--primary-green); font-size: 0.9rem;">
+                                                    <i class="bi bi-calendar-event me-1"></i> Janvier 2024
+                                                </p>
+                                                <div class="rating">
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                </div>
+                                            </div>
                                             <blockquote class="text-secondary mb-4 fst-italic fs-5">
-                                                 "Sushi maison avec une touche de graines germées cultivées dans ma cuisine, c'est non seulement délicieux mais aussi un vrai symbole de ma transition vers une alimentation plus locale."
+                                                "Sushi maison avec une touche de graines germées cultivées dans ma cuisine, c'est non seulement délicieux mais aussi un vrai symbole de ma transition vers une alimentation plus locale."
                                             </blockquote>
-                                            <p class="fw-bold mb-0" style="color: var(--primary-green)">Participant V.I.V.E</p>
+                                            <p class="fw-bold mb-0" style="color: var(--primary-green)">Sabrine Y. et ses 2 enfants</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                           <div class="carousel-item">
-                            <div class="p-4 hover-grow animated">
-                                <div class="row align-items-center g-4">
-                                    <div class="col-md-6">
-                                        <div style="height: 300px; overflow: hidden; border-radius: 1rem;">
-                                            <img src="{% static 'img/temoignage4.jpeg' %}"
-                                                 class="img-fluid w-100 h-100"
-                                                 alt="Semis en croissance"
-                                                 style="object-fit: cover;">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="p-3">
-                                            <blockquote class="text-secondary mb-4 fst-italic fs-5">
-                                                   "J'ai ajouté mes graines germées maison à cette soupe, un vrai régal ! Non seulement c'est délicieux, mais c'est aussi un moment de satisfaction personnelle de cultiver mes propres aliments. Merci à V.I.V.E pour cette expérience enrichissante !"
-                                            </blockquote>
-                                            <p class="fw-bold mb-0" style="color: var(--primary-green)">Participant V.I.V.E</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                           <div class="carousel-item">
-                            <div class="p-4 hover-grow animated">
-                                <div class="row align-items-center g-4">
-                                    <div class="col-md-6">
-                                        <div style="height: 300px; overflow: hidden; border-radius: 1rem;">
-                                            <img src="{% static 'img/temoignage5.jpeg' %}"
-                                                 class="img-fluid w-100 h-100"
-                                                 alt="Semis en croissance"
-                                                 style="object-fit: cover;">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="p-3">
-                                            <blockquote class="text-secondary mb-4 fst-italic fs-5">
-                                                   "Gombos de mon propre jardin et graines germées de ma culture, c'est un ACCOMPLISSEMENT que je n'imaginais pas pouvoir faire il y'a encore quelques mois. Merci V.I.V.E de nous montrer que c'est possible et facile de mieux manger!"
-                                            </blockquote>
-                                            <p class="fw-bold mb-0" style="color: var(--primary-green)">Participant V.I.V.E</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
+                        <!-- Quatrième témoignage -->
                         <div class="carousel-item">
                             <div class="p-4 hover-grow animated">
                                 <div class="row align-items-center g-4">
                                     <div class="col-md-6">
-                                        <div style="height: 300px; overflow: hidden; border-radius: 1rem;">
-                                            <img src="{% static 'img/temoignage6.jpeg' %}"
-                                                 class="img-fluid w-100 h-100"
-                                                 alt="Semis en croissance"
-                                                 style="object-fit: cover;">
+                                        <div class="testimonial-image-container">
+                                            <img src="{% static 'img/temoignage4.jpeg' %}"
+                                                 class="img-fluid testimonial-image"
+                                                 alt="Semis en croissance">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="p-3">
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <p class="date-badge rounded-pill px-3 py-1 text-white" style="background-color: var(--primary-green); font-size: 0.9rem;">
+                                                    <i class="bi bi-calendar-event me-1"></i> Février 2024
+                                                </p>
+                                                <div class="rating">
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                </div>
+                                            </div>
                                             <blockquote class="text-secondary mb-4 fst-italic fs-5">
-                                              "Le meilleur sandwich de ma vie ! Un goût frais et croquant grâce à mes graines germées, cultivées à la maison. C'est simple, rapide et tellement satisfaisant de savoir que je mange local et durable, directement de ma culture à mon assiette ! Merci à V.I.V.E pour cette belle aventure !"
+                                                "J'ai ajouté mes graines germées maison à cette soupe, un vrai régal ! Non seulement c'est délicieux, mais c'est aussi un moment de satisfaction personnelle de cultiver mes propres aliments. Merci à V.I.V.E pour cette expérience enrichissante !"
+                                            </blockquote>
+                                            <p class="fw-bold mb-0" style="color: var(--primary-green)">Fatima R.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cinquième témoignage -->
+                        <div class="carousel-item">
+                            <div class="p-4 hover-grow animated">
+                                <div class="row align-items-center g-4">
+                                    <div class="col-md-6">
+                                        <div class="testimonial-image-container">
+                                            <img src="{% static 'img/temoignage5.jpeg' %}"
+                                                 class="img-fluid testimonial-image"
+                                                 alt="Semis en croissance">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="p-3">
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <p class="date-badge rounded-pill px-3 py-1 text-white" style="background-color: var(--primary-green); font-size: 0.9rem;">
+                                                    <i class="bi bi-calendar-event me-1"></i> Septembre 2024
+                                                </p>
+                                                <div class="rating">
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                </div>
+                                            </div>
+                                            <blockquote class="text-secondary mb-4 fst-italic fs-5">
+                                                "Gombos de mon propre jardin et graines germées de ma culture, c'est un ACCOMPLISSEMENT que je n'imaginais pas pouvoir faire il y'a encore quelques mois. Merci V.I.V.E de nous montrer que c'est possible et facile de mieux manger!"
+                                            </blockquote>
+                                            <p class="fw-bold mb-0" style="color: var(--primary-green)">Rodrigue K.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sixième témoignage -->
+                        <div class="carousel-item">
+                            <div class="p-4 hover-grow animated">
+                                <div class="row align-items-center g-4">
+                                    <div class="col-md-6">
+                                        <div class="testimonial-image-container">
+                                            <img src="{% static 'img/temoignage6.jpeg' %}"
+                                                 class="img-fluid testimonial-image"
+                                                 alt="Semis en croissance">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="p-3">
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <p class="date-badge rounded-pill px-3 py-1 text-white" style="background-color: var(--primary-green); font-size: 0.9rem;">
+                                                    <i class="bi bi-calendar-event me-1"></i> Février 2024
+                                                </p>
+                                                <div class="rating">
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                </div>
+                                            </div>
+                                            <blockquote class="text-secondary mb-4 fst-italic fs-5">
+                                                "Le meilleur sandwich de ma vie ! Un goût frais et croquant grâce à mes graines germées, cultivées à la maison. C'est simple, rapide et tellement satisfaisant de savoir que je mange local et durable, directement de ma culture à mon assiette ! Merci à V.I.V.E pour cette belle aventure !"
                                             </blockquote>
                                             <p class="fw-bold mb-0" style="color: var(--primary-green)">Clea B.</p>
                                         </div>
@@ -642,12 +750,78 @@
                             </div>
                         </div>
 
-                        <!-- Les autres témoignages suivent le même format -->
-                        <!-- [Témoignages 3-6 avec la même structure] -->
+                        <!-- Septième témoignage -->
+                        <div class="carousel-item">
+                            <div class="p-4 hover-grow animated">
+                                <div class="row align-items-center g-4">
+                                    <div class="col-md-6">
+                                        <div class="testimonial-image-container">
+                                            <img src="{% static 'img/temoignage8.jpeg' %}"
+                                                 class="img-fluid testimonial-image"
+                                                 alt="Burger avec graines germées">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="p-3">
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <p class="date-badge rounded-pill px-3 py-1 text-white" style="background-color: var(--primary-green); font-size: 0.9rem;">
+                                                    <i class="bi bi-calendar-event me-1"></i> Janvier 2024
+                                                </p>
+                                                <div class="rating">
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                </div>
+                                            </div>
+                                            <blockquote class="text-secondary mb-4 fst-italic fs-5">
+                                                "J'ai cultivé des graines germées chez moi et les ai utilisées pour personnaliser ce burger. C'est tellement gratifiant de pouvoir intégrer ce que j'ai cultivé dans mes repas ! Une vraie démarche vers plus d'autonomie alimentaire."
+                                            </blockquote>
+                                            <p class="fw-bold mb-0" style="color: var(--primary-green)">Anne D.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
+                        <!-- Huitième témoignage -->
+                        <div class="carousel-item">
+                            <div class="p-4 hover-grow animated">
+                                <div class="row align-items-center g-4">
+                                    <div class="col-md-6">
+                                        <div class="testimonial-image-container">
+                                            <img src="{% static 'img/temoignage9.jpeg' %}"
+                                                 class="img-fluid testimonial-image"
+                                                 alt="Apéro d'Halloween avec houmous">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="p-3">
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <p class="date-badge rounded-pill px-3 py-1 text-white" style="background-color: var(--primary-green); font-size: 0.9rem;">
+                                                    <i class="bi bi-calendar-event me-1"></i> Octobre 2024
+                                                </p>
+                                                <div class="rating">
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                    <i class="bi bi-star-fill" style="color: var(--primary-green);"></i>
+                                                </div>
+                                            </div>
+                                            <blockquote class="text-secondary mb-4 fst-italic fs-5">
+                                                "Un apéro d'Halloween original avec du houmous à la betterave et aux graines germées ! C'est vraiment gratifiant de pouvoir préparer des plats sains et faits maison avec ce que j'ai cultivé. Une belle initiative qui rend chaque moment convivial et responsable."
+                                            </blockquote>
+                                            <p class="fw-bold mb-0" style="color: var(--primary-green)">Sophie T.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Contrôles du carrousel améliorés -->
+                    <!-- Contrôles du carousel -->
                     <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Précédent</span>
@@ -657,7 +831,7 @@
                         <span class="visually-hidden">Suivant</span>
                     </button>
 
-                    <!-- Indicateurs améliorés -->
+                    <!-- Indicateurs du carousel -->
                     <div class="carousel-indicators">
                         <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                         <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -665,6 +839,55 @@
                         <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
                         <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
                         <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="5" aria-label="Slide 6"></button>
+                        <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="6" aria-label="Slide 7"></button>
+                        <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="7" aria-label="Slide 8"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Section Qui sommes-nous -->
+<section class="section-gradient py-5">
+    <div class="container">
+        <div class="row justify-content-center text-center mb-5">
+            <div class="col-12">
+                <h2 class="section-title mb-4">
+                    <span style="color: var(--primary-green)">Qui</span> sommes-nous ?
+                </h2>
+            </div>
+        </div>
+
+        <div class="row justify-content-center g-4">
+            <!-- Colonne gauche -->
+            <div class="col-12 col-lg-6">
+                <div class="custom-card p-4 p-lg-5 hover-grow h-100">
+                    <div class="d-flex flex-column justify-content-center h-100">
+                        <div class="icon-circle mb-4 mx-auto">
+                            <i class="bi bi-heart-fill fs-4"></i>
+                        </div>
+                        <h3 class="fs-4 mb-3 text-center" style="color: var(--primary-green)">Notre Mission</h3>
+                        <p class="text-dark fs-5 mb-0 text-center">
+                            V.I.V.E est une organisation dédiée à la transformation de notre relation avec le vivant,
+                            en plaçant l'alimentation au cœur de notre engagement.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Colonne droite -->
+            <div class="col-12 col-lg-6">
+                <div class="custom-card p-4 p-lg-5 hover-grow h-100">
+                    <div class="d-flex flex-column justify-content-center h-100">
+                        <div class="icon-circle mb-4 mx-auto">
+                            <i class="bi bi-people-fill fs-4"></i>
+                        </div>
+                        <h3 class="fs-4 mb-3 text-center" style="color: var(--primary-green)">Notre Histoire</h3>
+                        <p class="text-dark fs-5 mb-0 text-center">
+                            Fondée par un collectif de citoyens des quartiers populaires de Grenoble,
+                            sous l'impulsion de <span class="fw-bold" style="color: var(--primary-green)">Lovelyne PERRIN ALIMA</span>
+                            (créatrice du projet Eco Explorer).
+                        </p>
                     </div>
                 </div>
             </div>
