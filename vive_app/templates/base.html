@@ -21,7 +21,10 @@
             padding: 1rem 0;
             transition: all 0.3s ease;
         }
-
+        .navbar-logo {
+          height: 40px; /* Adjust as needed */
+          width: auto;
+        }
         .navbar-brand svg {
             height: 80px;
             transition: all 0.3s ease;
@@ -219,34 +222,7 @@
     <nav class="navbar navbar-expand-lg fixed-top bg-white shadow-sm">
         <div class="container">
             <a class="navbar-brand" href="{% url 'home' %}">
-                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200">
-                    <!-- Texte principal avec police arrondie -->
-                    <text x="50" y="120"
-                          font-family="Arial Rounded MT Bold"
-                          font-size="120"
-                          fill="#4CAF50"
-                          letter-spacing="-2">
-                        v.i.v.e
-                    </text>
-
-                    <!-- Sous-titre -->
-                    <text x="50" y="160"
-                          font-family="Arial Rounded MT Bold"
-                          font-size="24"
-                          fill="#4CAF50"
-                          letter-spacing="2">
-                        voluntary initiatives for vital ecosystems
-                    </text>
-
-                    <!-- Élément graphique arrondi - feuille stylisée -->
-                    <path d="M500,70
-                             Q530,40 560,55
-                             T580,70
-                             Q560,100 530,85
-                             T500,70"
-                          fill="#4CAF50"
-                          opacity="0.2"/>
-                </svg>
+                  <img src="{% static 'img/vive_logo_primaire.png' %}" alt=" " class="hero-image navbar-logo">
             </a>
 
             <button class="navbar-toggler rounded-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
